@@ -73,7 +73,7 @@
           <li class="nav-item">
             <div class="btn-group dropleft">
               <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                thanhhv
+                Minh LC
               </button>
               <div class="dropdown-menu">
                 <div class="text-center">
@@ -139,32 +139,24 @@
       
     
 
-      <table class="table table-responsive">
+      <table class="table">
         <thead class="thead-light">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Tên</th>
-            <th scope="col">Hình ảnh</th>
-            <th scope="col">Giá</th>
-            <th scope="col">Số lượng</th>
-            <th scope="col">Nhà sản xuất</th>
-            <th scope="col">Ngày nhập</th>
-            <th scope="col">Trạng thái</th>
+            <th scope="col">Địa chỉ</th>
+            <th scope="col">Điện thoại</th>
+            <th scope="col">Email</th>
             <th scope="col">Chức năng</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"> Doremon meo may thông minh đáng yêu ghê</a></td>
-            <td>
-              <img src="https://vignette.wikia.nocookie.net/doraemon/images/b/b8/Doraemon_2005.PNG/revision/latest?cb=20151207094313&path-prefix=en" alt="do-re-mon" class="img-thumbnail product-img">
-            </td>
-            <td>10000 VND</td>
-            <td>355</td>
-            <td>NXB Nhí</td>
-            <td>12/2/1998</td>
-            <td>Active</td>
+            <td>Hoàng VĂn Thành</td>
+            <td>100 Hùng Vương</td>
+            <td>01234325632789</td>
+            <td>thanhhv.ml@gmail.com</td>
             <td>
               <div class="btn-group">
                 <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>&nbsp;
@@ -172,60 +164,8 @@
               </div>
             </td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"> Doremon meo may thông minh đáng yêu ghê</a></td>
-            <td>
-              <img src="https://vignette.wikia.nocookie.net/doraemon/images/b/b8/Doraemon_2005.PNG/revision/latest?cb=20151207094313&path-prefix=en" alt="do-re-mon" class="img-thumbnail product-img">
-            </td>
-            <td>10000 VND</td>
-            <td>355</td>
-            <td>NXB Nhí</td>
-            <td>12/2/1998</td>
-            <td>Active</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"> Doremon meo may thông minh đáng yêu ghê</a></td>
-            <td>
-              <img src="https://vignette.wikia.nocookie.net/doraemon/images/b/b8/Doraemon_2005.PNG/revision/latest?cb=20151207094313&path-prefix=en" alt="do-re-mon" class="img-thumbnail product-img">
-            </td>
-            <td>10000 VND</td>
-            <td>355</td>
-            <td>NXB Nhí</td>
-            <td>12/2/1998</td>
-            <td>Active</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"> Doremon meo may thông minh đáng yêu ghê</a></td>
-            <td>
-              <img src="https://st.gamevui.com/images/image/2019/02/19/doraemon-640.jpg" alt="do-re-mon" class="img-thumbnail product-img">
-            </td>
-            <td>10000 VND</td>
-            <td>355</td>
-            <td>NXB Nhí</td>
-            <td>12/2/1998</td>
-            <td>Active</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
+         
+          
           
         </tbody>
       </table>
@@ -258,6 +198,7 @@
 
   <!-- end content -->
 
+<h1>${pageContext.request.contextPath}</h1>
   </div>
 </div>
 

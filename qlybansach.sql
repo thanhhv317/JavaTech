@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2019 at 05:27 PM
+-- Generation Time: Oct 01, 2019 at 05:37 PM
 -- Server version: 10.1.40-MariaDB
 -- PHP Version: 7.1.29
 
@@ -45,10 +45,10 @@ CREATE TABLE `books` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Table structure for table `categories`
 --
 
-CREATE TABLE `category` (
+CREATE TABLE `categories` (
   `CategoryID` int(11) NOT NULL,
   `CategoryName` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Quantity` int(11) NOT NULL,
@@ -99,9 +99,9 @@ ALTER TABLE `books`
   ADD KEY `CreateBy` (`CreateBy`);
 
 --
--- Indexes for table `category`
+-- Indexes for table `categories`
 --
-ALTER TABLE `category`
+ALTER TABLE `categories`
   ADD PRIMARY KEY (`CategoryID`);
 
 --
@@ -142,7 +142,7 @@ ALTER TABLE `users`
 ALTER TABLE `books`
   ADD CONSTRAINT `books_ibfk_1` FOREIGN KEY (`PublisherID`) REFERENCES `publishers` (`PublisherID`),
   ADD CONSTRAINT `books_ibfk_2` FOREIGN KEY (`CreateBy`) REFERENCES `users` (`UserID`),
-  ADD CONSTRAINT `fk_categoryID_Books` FOREIGN KEY (`CategoryID`) REFERENCES `category` (`CategoryID`);
+  ADD CONSTRAINT `fk_categoryID_Books` FOREIGN KEY (`CategoryID`) REFERENCES `categories` (`CategoryID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -73,7 +73,15 @@
           <li class="nav-item">
             <div class="btn-group dropleft">
               <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                thanhhv
+                <% 
+                if(session.getAttribute("user") != null){
+                	
+                	out.print(session.getAttribute("name"));
+                }
+                else{
+                	out.print("abc");
+                }
+                %>
               </button>
               <div class="dropdown-menu">
                 <div class="text-center">
@@ -268,6 +276,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
-	 ${rs}
+	<!--${rs}  --> 
 </body>
 </html>

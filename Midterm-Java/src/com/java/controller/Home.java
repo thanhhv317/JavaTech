@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.java.model.ConnectDB;
 
-@WebServlet("")
+@WebServlet("/Dashboard")
 public class Home extends HttpServlet {
 
 	/**
@@ -24,24 +24,24 @@ public class Home extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //		resp.setContentType("text/html;charset=UTF-8");
 //		req.setCharacterEncoding("utf-8");
-		ConnectDB connect = new ConnectDB();
-		String s="";
-		ResultSet rs = connect.getData("select * from product");
-		try {
-			while(rs.next()){
-				s+= rs.getString(2);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-//		
-//		if (connect!=null) {
-//			s="123";
+//		ConnectDB connect = new ConnectDB();
+//		String s="";
+//		ResultSet rs = connect.getData("select * from product");
+//		try {
+//			while(rs.next()){
+//				s+= rs.getString(2);
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
 //		}
-//		else s="1";
-		req.setAttribute("rs", s);
+//		
+////		
+////		if (connect!=null) {
+////			s="123";
+////		}
+////		else s="1";
+//		req.setAttribute("rs", s);
 		
 		req.getRequestDispatcher("view/dashboard.jsp").forward(req, resp);
 	}

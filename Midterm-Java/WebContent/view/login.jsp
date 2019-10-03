@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,11 +22,15 @@
     <div class="fadeIn first">
       <img src="http://www.r3infoservices.com/RohanEnterprises/images/humen.jpg" id="icon" alt="User Icon" />
     </div>
-
+			<%
+				if(request.getParameter("error") != null){
+					out.print("<p style='color:red'>Sai tên đăng nhập hoặc mật khẩu </p>");
+				}
+			%>
     <!-- Login Form -->
-    <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
-      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+    <form action="<%=request.getContextPath() %>/Login" method="post">
+      <input type="text" id="login" class="fadeIn second" name="username" placeholder="login">
+      <input type="text" id="password" class="fadeIn third" name="password" placeholder="password">
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
 

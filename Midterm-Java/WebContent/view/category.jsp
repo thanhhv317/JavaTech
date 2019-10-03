@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.java.model.CategoryModel"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!doctype html>
@@ -150,74 +152,30 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Truyện ngụ ngôn</td>
+         
+          
+       <% ArrayList<CategoryModel> arrCate =(ArrayList<CategoryModel>)request.getAttribute("data");
+	 for(int i=0;i<arrCate.size();++i){
+	 	CategoryModel cate = arrCate.get(i);
+	 %>
+	    <tr>
+            <th scope="row"><%= i+1 %></th>
+            <td><%= cate.name %></td>
             <td>
             	<div class="custom-control custom-switch">
-				  <input type="checkbox" class="custom-control-input" id="jcungdc">
-				  <label class="custom-control-label" for="jcungdc"></label>
+				  <input type="checkbox" class="custom-control-input active" <% out.print((cate.status)? "checked": ""); %> id="<%= cate.categoryID %>">
+				  <label class="custom-control-label" for="<%= cate.categoryID %>"></label>
 				</div>
             </td>
-            <td>1000</td>
+            <td><%= cate.quantity %></td>
             <td>
               <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>&nbsp;
+                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"></i></button>&nbsp;
                 <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
               </div>
             </td>
           </tr>
-         <tr>
-            <th scope="row">1</th>
-            <td>Truyện ngụ ngôn</td>
-            <td>
-            	<div class="custom-control custom-switch">
-				  <input type="checkbox" class="custom-control-input">
-				  <label class="custom-control-label"></label>
-				</div>
-            </td>
-            <td>1000</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1</th>
-            <td>Truyện ngụ ngôn</td>
-            <td>
-            	<div class="custom-control custom-switch">
-				  <input type="checkbox" class="custom-control-input">
-				  <label class="custom-control-label"></label>
-				</div>
-            </td>
-            <td>1000</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1</th>
-            <td>Truyện ngụ ngôn</td>
-            <td>
-            	<div class="custom-control custom-switch">
-				  <input type="checkbox" class="custom-control-input">
-				  <label class="custom-control-label"></label>
-				</div>
-            </td>
-            <td>1000</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
+	 <%}%>
           
           
         </tbody>
@@ -250,8 +208,26 @@
 
 
   <!-- end content -->
-
-<h1>${pageContext.request.contextPath}</h1>
+	 <!-- modal view product detail -->
+  <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thông tin sản phẩm</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+      </div>
+    </div>
+  </div>
+  <!-- end modal product detail -->
   </div>
 </div>
 
@@ -262,6 +238,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
-	 ${rs}
+
 </body>
 </html>

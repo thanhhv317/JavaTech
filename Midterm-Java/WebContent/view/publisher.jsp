@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.java.model.PublisherModel"%>
 <!doctype html>
 <html lang="en">
   <head>
@@ -73,7 +75,11 @@
           <li class="nav-item">
             <div class="btn-group dropleft">
               <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Minh LC
+                <% 
+	                if(session.getAttribute("name") != null){
+	                	out.print(session.getAttribute("name"));
+	                }
+                %>
               </button>
               <div class="dropdown-menu">
                 <div class="text-center">
@@ -92,25 +98,6 @@
     </nav>
   <!-- end navbar -->
 
-  <!-- modal view product detail -->
-  <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Thông tin sản phẩm</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-      </div>
-    </div>
-  </div>
   <!-- end modal product detail -->
   <div class="row">
     <div class="container">
@@ -118,13 +105,15 @@
         <ol class="breadcrumb d-flex justify-content-end">
            <li class="breadcrumb-item active">
             <div class="btn-group" role="group">
-              <input type="text">
-              <button type="button" class="btn btn-outline-danger">Tìm kiếm</button>
+            <form action="${pageContext.request.contextPath}/SearchPublisher" method="POST">
+            	<input type="text" name="pubName">
+              <button type="submit" class="btn btn-outline-danger" id="btnSearchPub">Tìm kiếm</button>
+            </form>
             </div>
           </li>
           <li class="breadcrumb-item active">
             <div class="btn-group" role="group">
-              <a href="${pageContext.request.contextPath}/view/add-product.jsp" class="btn btn-outline-success"><i class="fas fa-plus"></i> Thêm mới</a>
+              <a href="${pageContext.request.contextPath}/view/add-publisher.jsp" class="btn btn-outline-success"><i class="fas fa-plus"></i> Thêm mới</a>
               <button type="button" class="btn btn-outline-primary">Thống kê</button>
             </div>
           </li>
@@ -137,7 +126,19 @@
   <div class="container">
     <div class="row">
       
-    
+    	<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+		    <div class="modal-dialog modal-xl">
+		      <div class="modal-content">
+		        <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Thông tin nhà sản xuất</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div id="detailPublisher"></div>
+		      </div>
+		    </div>
+		  </div>
 
       <table class="table">
         <thead class="thead-light">
@@ -151,19 +152,26 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Hoàng VĂn Thành</td>
-            <td>100 Hùng Vương</td>
-            <td>01234325632789</td>
-            <td>thanhhv.ml@gmail.com</td>
+        	<% ArrayList<PublisherModel> arrPub =(ArrayList<PublisherModel>)request.getAttribute("data");
+	 for(int i=0;i<arrPub.size();++i){
+	 	PublisherModel pub = arrPub.get(i);
+	 %>
+	 	<tr>
+            <th scope="row"><%= i+1 %></th>
+            <td><%= pub.publisherName %></td>
+            <td><%= pub.address %></td>
+            <td><%= pub.phone %></td>
+            <td><%= pub.email %></td>
             <td>
               <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>&nbsp;
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+                <button type="button" onClick="Detail(<%=pub.publisherID %>)" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-xl"><i class="fas fa-edit"></i></button>&nbsp;
+                <button type="button" id="btnDelete" onClick="Delete(<%=pub.publisherID %>)" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
               </div>
             </td>
-          </tr>
+        </tr>
+	 <%}%>
+        
+          
          
           
           
@@ -198,7 +206,6 @@
 
   <!-- end content -->
 
-<h1>${pageContext.request.contextPath}</h1>
   </div>
 </div>
 
@@ -207,8 +214,44 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
-	 ${rs}
+  <script>
+  	
+ 		function Delete(id){
+			$.post('${pageContext.request.contextPath}/DeletePublisher', {
+	               pubID: id
+	           },function(data){
+	        	   location.reload();
+	           });
+         }
+
+  		function Detail(id){
+  			$.get('${pageContext.request.contextPath}/EditPublisher',{
+  				pubID: id
+  			},function(data){
+  				document.getElementById("detailPublisher").innerHTML = data;
+  			});
+  		}
+  		
+  		function Save(id){	
+  			var pub = new Object();
+  				pub.Id = id;
+  				pub.Name = $("#pubName").val();
+  				pub.Address = $("#pubAddress").val();
+  				pub.Phone = $("#pubPhone").val();
+  				pub.Email = $("#pubEmail").val();
+  			$.post('${pageContext.request.contextPath}/EditPublisher',{
+  				Id: pub.Id,
+  				Name: pub.Name,
+  				Address: pub.Address,
+  				Phone: pub.Phone,
+				Email: pub.Email  				
+  			},function(data){
+  				location.reload();
+  			});
+  		}
+  		
+  </script>
 </body>
 </html>

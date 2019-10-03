@@ -17,10 +17,10 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- css style -->SS
+    <!-- css style -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/dashboard.css">
 
-    <title>Admin</title>
+    <title>Add New Publisher</title>
   </head>
 <body>
 
@@ -73,7 +73,14 @@
           <li class="nav-item">
             <div class="btn-group dropleft">
               <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Minh LC
+                <% 
+	                if(session.getAttribute("name") != null){
+	                	out.print(session.getAttribute("name"));
+	                }
+	                else{
+	                	response.sendRedirect(request.getContextPath()+"/Login");
+	                }
+                %>
               </button>
               <div class="dropdown-menu">
                 <div class="text-center">
@@ -117,7 +124,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
            <li class="breadcrumb-item active">
-           <h2>Thêm sản phẩm</h2>
+           <h2>Thêm nhà xuất bản</h2>
           </li>
         </ol>
       </nav>
@@ -126,78 +133,43 @@
 
   <!-- content -->
   <div class="container">
-      <form>
+      <form action="${pageContext.request.contextPath}/AddPublisher" method="POST">
     <div class="row">
       
       <div class="col-6">
           <div class="form-group">
-            <label>Tên sản phẩm</label>
-            <input type="text" class="form-control" placeholder="khéo ăn khéo nói sẽ có được thiên hạ">
+            <label>Tên nhà xuất bản</label>
+            <input type="text" class="form-control" name="pubName">
           </div>
           <div class="form-group">
-            <label>Danh mục</label>
-            <select class="form-control">
-              <option>Tiểu thuyết</option>
-              <option>Ngôn tình</option>
-              <option>Truyện tranh</option>
-            </select>
+            <label>Địa chỉ</label>
+            <input type="text" class="form-control" name="pubAddress">
           </div>
-           <div class="form-group">
-            <label>Nhà xuất bản</label>
-            <select class="form-control">
-              <option>NXB trẻ</option>
-              <option>NXB Hà Nội</option>
-              <option>NXB TP Hồ Chí Minh</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Số lượng</label>
-            <input type="text" class="form-control" placeholder="500">
-          </div>
-          <div class="form-group">
-            <label>Giá</label>
-            <input type="text" class="form-control" placeholder="37000">
-          </div>
-          <div class="form-group">
-            <label>Mô tả</label>
-            <textarea class="form-control" rows="3"></textarea>
-          </div>
+          
       </div>
-
       <div class="col-6">
-        <div class="form-group">
-          <label>Ngày nhập</label>
-          <input type="date" class="form-control">
-        </div>
-        <div class="form-group">
-          <label>Trạng thái</label>
-          <select class="form-control">
-            <option>Enable</option>
-            <option>Disable</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Hình ảnh</label>
-          <input class="form-control" type="file" id="imgInp" />
-          <img id="blah" class="image-thumbnail mt-2" />
-        </div>
+      	<div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" class="form-control" name="pubPhone">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" name="pubEmail">
+          </div>
       </div>
-
       <br>
       <div class="container mt-2 mb-4">
-        <button class="btn btn-success"><i class="fas fa-save"></i> Save</button> 
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button> 
       </div>
     </div>
     </form>
 
   </div>
-
-	<h1>${pageContext.request.contextPath}</h1>
   <!-- end content -->
 
   </div>
 </div>
-
+	
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

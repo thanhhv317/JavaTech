@@ -12,7 +12,7 @@ public class ConnectDB {
 	public ConnectDB()  {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/qlybansach","root","");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/qlybansach","root","Kydapzai1997!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,6 +36,7 @@ public class ConnectDB {
 		}
 		return null;
 	}
+
 	public boolean updateData(String sql) {
 		stsm = null;
 		try {

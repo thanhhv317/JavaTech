@@ -5,4 +5,8 @@ public class CategoryModel {
 	public String name;
 	public int quantity;
 	public boolean status;
+	
+	public String output() {
+		return this.categoryID + "&" + this.name + "&" + this.quantity + "&" + this.status;
+	}
 }

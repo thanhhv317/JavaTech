@@ -75,7 +75,12 @@
           <li class="nav-item">
             <div class="btn-group dropleft">
               <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Minh LC
+                 <% 
+                if(session.getAttribute("name") != null){
+                	
+                	out.print(session.getAttribute("name"));
+                }
+               %>
               </button>
               <div class="dropdown-menu">
                 <div class="text-center">
@@ -120,8 +125,8 @@
         <ol class="breadcrumb d-flex justify-content-end">
            <li class="breadcrumb-item active">
             <div class="btn-group" role="group">
-              <input type="text">
-              <button type="button" class="btn btn-outline-danger">Tìm kiếm</button>
+              <input type="text" name="categoryName">
+              <button type="button" id="btnSearch" class="btn btn-outline-danger">Tìm kiếm</button>
             </div>
           </li>
           <li class="breadcrumb-item active">
@@ -136,6 +141,37 @@
   </div>
 
   <!-- content -->
+<!-- Modal -->
+<div class="modal fade" id="modalCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Chi tiết danh mục</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+    		<label >Tên danh mục</label>
+		    <input class="form-control" id="categoryName">
+ 		 </div>
+ 		  <div class="form-group">
+    		<label>Số lượng sản phẩm</label>
+		    <input type="number" class="form-control" id="categoryQuantity">
+ 		 </div>
+ 		 <div class="custom-control custom-switch">
+			  <input type="checkbox" class="custom-control-input" id="categoryStatus">
+			  <label class="custom-control-label" for="categoryStatus">Trạng thái hiện thị</label>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary saveChange">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
   <div class="container">
     <div class="row">
       
@@ -151,7 +187,7 @@
             <th scope="col">Chức năng</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="category">
          
           
        <% ArrayList<CategoryModel> arrCate =(ArrayList<CategoryModel>)request.getAttribute("data");
@@ -170,8 +206,8 @@
             <td><%= cate.quantity %></td>
             <td>
               <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"></i></button>&nbsp;
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+                <button id="<%= cate.categoryID %>" type="button" class="btn btn-secondary editProduct"data-toggle="modal" data-target="#modalCategory"><i class="fas fa-edit"></i></button>&nbsp;
+                <button id="<%= cate.categoryID %>" type="button" class="btn btn-secondary delete"><i class="fas fa-trash"></i></button>
               </div>
             </td>
           </tr>
@@ -180,7 +216,6 @@
           
         </tbody>
       </table>
-
     <!-- pagination -->
     <div class="container d-flex justify-content-center">
       <nav aria-label="Page navigation example">
@@ -208,26 +243,7 @@
 
 
   <!-- end content -->
-	 <!-- modal view product detail -->
-  <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Thông tin sản phẩm</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-      </div>
-    </div>
-  </div>
-  <!-- end modal product detail -->
+	 
   </div>
 </div>
 
@@ -236,8 +252,145 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>		
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
+	<script>
+	$(".editProduct").click(function(){
+		alert(this.id);
+		  $.ajax({
+			  url: "${pageContext.request.contextPath}/Category", 
+			  type: "GET",
+			  data:{
+				  id: this.id,
+				  action: "edit"
+			  },
+			  success: function(result){
+			    var res = result.split("&");
+			    $('#categoryName').val(res[1]);
+			    $('#categoryQuantity').val(res[2]);
+			    $('.saveChange').attr("id",res[0]);
+			    if (res[3]==="true") {
+			    	$('#categoryStatus').attr("checked","");
+				    $('#categoryStatus').addClass("active");
+			    }
+			    else {
+			    	$('#categoryStatus').removeAttr("checked","");
+			    	$('#categoryStatus').removeClass("active");
+			    }
+			  }
+		  });
+		  
+	});
+	
+	$(".saveChange").click(function(){
+		// chỗ này xử lý nút save change đúng ko ukm
+		if ($('#categoryStatus').prop('checked')) status=1;
+		else status=0;
+		$.ajax({
+			  url: "${pageContext.request.contextPath}/Category", 
+			  type: "POST",
+			  data:{
+				  id: this.id,
+				  name:  $('#categoryName').val(),
+				  quantity:  $('#categoryQuantity').val(),
+				  status: status, 
+				  action: "edit"
+			  },
+			  success: function(result){
+				  //$('#modalCategory').modal('hide');
+				  console.log(result);
+				  location.reload();
+			   	/*if (result == "true") {
+			   		alert("thanh cong roi ae oi");
+			   	} else {
+			   		alert("Sai roi ae oi");// ko có nghe	
+			   	
+			
+			   	}*/
+			  }
+		  });
+	});
+	
+	$(".delete").click(function(){
+		alert(this.id);
+		$.ajax({
+			  url: "${pageContext.request.contextPath}/Category", 
+			  type: "POST",
+			  data:{
+				  id: this.id,
+				  action: "delete"
+			  },
+			  success: function(result){
+				  
+				  if (result=="success"){
+					  location.reload();
+				  }
+				  else{
+					
+				  	alert("Xóa thất bại. Vui lòng thử lại");
+				  }
+			  }
+		  });
+	});
+	$("#btnSearch").click(function(){
+		let cateName=$('[name="categoryName"]').val();
+	$.ajax({
+		  url: "${pageContext.request.contextPath}/Category", 
+		  type: "POST",
+		  data:{
+			  name:cateName,
+			  action: "search"
+		  },
+		  success: function(result){
+			 $("#category").html(result);
+		  }
+	  });
+});
+	function deleteItem(id){
+		$.ajax({
+			  url: "${pageContext.request.contextPath}/Category", 
+			  type: "POST",
+			  data:{
+				  id: id,
+				  action: "delete"
+			  },
+			  success: function(result){
+				  
+				  if (result=="success"){
+					  location.reload();
+				  }
+				  else{
+					
+				  	alert("Xóa thất bại. Vui lòng thử lại");
+				  }
+			  }
+		  });
+	}
+	function editItem(id){
+		  $.ajax({
+			  url: "${pageContext.request.contextPath}/Category", 
+			  type: "GET",
+			  data:{
+				  id: id,
+				  action: "edit"
+			  },
+			  success: function(result){
+			    var res = result.split("&");
+			    $('#categoryName').val(res[1]);
+			    $('#categoryQuantity').val(res[2]);
+			    $('.saveChange').attr("id",res[0]);
+			    if (res[3]==="true") {
+			    	$('#categoryStatus').attr("checked","");
+				    $('#categoryStatus').addClass("active");
+			    }
+			    else {
+			    	$('#categoryStatus').removeAttr("checked","");
+			    	$('#categoryStatus').removeClass("active");
+			    }
+			  }
+		  });
+	}
 
+	</script>
 </body>
 </html>

@@ -36,4 +36,14 @@ public class ConnectDB {
 		}
 		return null;
 	}
+	public boolean updateData(String sql) {
+		stsm = null;
+		try {
+			stsm = conn.createStatement();
+			return stsm.executeUpdate(sql)>0?true:false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

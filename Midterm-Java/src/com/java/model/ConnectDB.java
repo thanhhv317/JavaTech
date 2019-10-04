@@ -36,7 +36,7 @@ public class ConnectDB {
 		}
 		return null;
 	}
-	
+
 	public boolean updateData(String sql) {
 		stsm = null;
 		try {

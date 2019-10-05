@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.java.model.BookModel"%>
+<%@page import="com.java.model.CategoryModel"%>
+<%@page import="com.java.model.PublisherModel"%>
 <!doctype html>
 <html lang="en">
   <head>
@@ -47,10 +51,10 @@
       </li>
 
       <li>
-        <a href="#"><i class="fa fa-fw fa-database"></i> Danh mục</a>
+        <a href="${pageContext.request.contextPath}/Category"><i class="fa fa-fw fa-database"></i> Danh mục</a>
       </li>
       <li>
-        <a href="#"><i class="fa fa-fw fa-user"></i> Nhà sản xuất</a>
+        <a href="${pageContext.request.contextPath}/Publisher"><i class="fa fa-fw fa-user"></i> Nhà sản xuất</a>
       </li>
     </ul>
   </div>
@@ -74,12 +78,9 @@
             <div class="btn-group dropleft">
               <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <% 
-                if(session.getAttribute("user") != null){
+                if(session.getAttribute("name") != null){
                 	
                 	out.print(session.getAttribute("name"));
-                }
-                else{
-                	out.print("abc");
                 }
                 %>
               </button>
@@ -123,11 +124,39 @@
   <div class="row">
     <div class="container">
       <nav aria-label="breadcrumb">
+      ${publisher}
+      <% 
+     
+			     /*  	ArrayList<PublisherModel> arrPub =(ArrayList<PublisherModel>)request.getAttribute("publisher");
+				 	for(int i=0;i<arrPub.size();++i){
+				 		PublisherModel pub = arrPub.get(i);
+				 		out.println(pub.publisherName);*/
+					%>
         <ol class="breadcrumb d-flex justify-content-end">
+        <li class="breadcrumb-item active">
+        		<div class="btn-group" role="group">
+        			
+      				<select class="browser-default custom-select" id="opFilter">
+ 
+					</select>
+        			
+        		</div>
+        	</li>
+        <li class="breadcrumb-item active">
+        		<div class="btn-group" role="group">
+        			
+      				<select class="browser-default custom-select" id="opFilter">
+					  <option selected value="0">Tất cả</option>
+					  <option value="1">Xác nhận</option>
+					  <option value="2">Chưa xác nhận</option>
+					</select>
+        			
+        		</div>
+        	</li>
            <li class="breadcrumb-item active">
             <div class="btn-group" role="group">
-              <input type="text">
-              <button type="button" class="btn btn-outline-danger">Tìm kiếm</button>
+              <input type="text" id="bookName">
+              <button type="button" id="btnSearch" class="btn btn-outline-danger">Tìm kiếm</button>
             </div>
           </li>
           <li class="breadcrumb-item active">
@@ -153,87 +182,45 @@
             <th scope="col">#</th>
             <th scope="col">Tên</th>
             <th scope="col">Hình ảnh</th>
+            <th scope="col">Nhà Xuất Bản</th>
+            <th scope="col">Loại</th>
+            <th scope="col">Tác giả</th>
             <th scope="col">Giá</th>
             <th scope="col">Số lượng</th>
-            <th scope="col">Nhà sản xuất</th>
             <th scope="col">Ngày nhập</th>
+            <th scope="col">Người nhập</th>
             <th scope="col">Trạng thái</th>
             <th scope="col">Chức năng</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"> Doremon meo may thông minh đáng yêu ghê</a></td>
+       	<tbody id="listBook">
+       	 <% 
+       	 ArrayList<BookModel> arrBook =(ArrayList<BookModel>)request.getAttribute("data");
+	 	for(int i=0;i<arrBook.size();++i){
+	 		BookModel book = arrBook.get(i);
+		%>
+	   <tr>
+            <th scope="row"><%= i+1 %></th>
+            <td><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"><%= book.bookName %></a></td>
             <td>
-              <img src="https://vignette.wikia.nocookie.net/doraemon/images/b/b8/Doraemon_2005.PNG/revision/latest?cb=20151207094313&path-prefix=en" alt="do-re-mon" class="img-thumbnail product-img">
+              <img src="<%= book.image %>" alt="do-re-mon" class="img-thumbnail product-img">
             </td>
-            <td>10000 VND</td>
-            <td>355</td>
-            <td>NXB Nhí</td>
-            <td>12/2/1998</td>
+            <td><%= book.publisherName %></td>
+            <td><%= book.categoryName %></td>
+            <td><%= book.author %></td>
+            <td><%= book.price %></td>
+            <td><%= book.quantity %></td>
+            <td><%= book.createDate %></td>
+            <td><%= book.createBy %></td>
             <td>Active</td>
             <td>
               <div class="btn-group">
                 <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>&nbsp;
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+                <button type="button" onclick="deleteItem(<%= book.bookID %>)" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
               </div>
             </td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"> Doremon meo may thông minh đáng yêu ghê</a></td>
-            <td>
-              <img src="https://vignette.wikia.nocookie.net/doraemon/images/b/b8/Doraemon_2005.PNG/revision/latest?cb=20151207094313&path-prefix=en" alt="do-re-mon" class="img-thumbnail product-img">
-            </td>
-            <td>10000 VND</td>
-            <td>355</td>
-            <td>NXB Nhí</td>
-            <td>12/2/1998</td>
-            <td>Active</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"> Doremon meo may thông minh đáng yêu ghê</a></td>
-            <td>
-              <img src="https://vignette.wikia.nocookie.net/doraemon/images/b/b8/Doraemon_2005.PNG/revision/latest?cb=20151207094313&path-prefix=en" alt="do-re-mon" class="img-thumbnail product-img">
-            </td>
-            <td>10000 VND</td>
-            <td>355</td>
-            <td>NXB Nhí</td>
-            <td>12/2/1998</td>
-            <td>Active</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td><a class="view-product" data-toggle="modal" data-target=".bd-example-modal-xl"> Doremon meo may thông minh đáng yêu ghê</a></td>
-            <td>
-              <img src="https://st.gamevui.com/images/image/2019/02/19/doraemon-640.jpg" alt="do-re-mon" class="img-thumbnail product-img">
-            </td>
-            <td>10000 VND</td>
-            <td>355</td>
-            <td>NXB Nhí</td>
-            <td>12/2/1998</td>
-            <td>Active</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
+	 <%}%>
           
         </tbody>
       </table>
@@ -274,8 +261,59 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
-	<!--${rs}  --> 
+	<script>
+		function deleteItem(id){
+			Swal.fire({
+				  title: 'Xác nhận',
+				  text: "Bạn thực sự muốn xóa!",
+				  type: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Xóa',
+				  cancelButtonText:"Hủy"
+				}).then((result) => {
+				  if (result.value) {
+					  $.ajax({
+						  url: "${pageContext.request.contextPath}/DeleteBook", 
+						  type: "POST",
+						  data:{
+							  id: id,
+						  },
+						  success: function(result){
+						    if (result == "success"){
+						    	location.reload();
+						    }
+						    else{
+						    	 Swal.fire({
+						    	   type: 'error',
+						    	   title: 'Xóa thất bại',
+						    	   text: 'Đã xảy ra lỗi. Xin vui lòng thử lại!',
+						    	 })
+						    }
+						  }
+					  });
+				  }
+				})
+			 
+		}
+		$("#btnSearch").click(function(){
+			let name=$("#bookName").val();
+			$.ajax({
+				  url: "${pageContext.request.contextPath}/SearchBook", 
+				  type: "POST",
+				  data:{
+					  name: name,
+				  },
+				  success: function(result){
+					  //alert(result);
+				    $("#listBook").html(result);
+				  }
+			  });
+		});
+	</script>
 </body>
 </html>
